@@ -1,95 +1,102 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
+import { useRouter } from 'next/navigation';
+import { Button, Box, Typography } from '@mui/material';
+import { styled, keyframes } from '@mui/system';
+
+// Define keyframes for wave effect
+const wave = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
+
+const WaveText = styled(Typography)(({ theme }) => ({
+  display: 'inline-block',
+  fontFamily: 'monospace',
+  fontSize: '4rem',
+  color: 'white', // Text color
+  textAlign: 'center',
+  animation: `${wave} 1.5s ease-in-out infinite`,
+}));
+
+const Background = styled('div')({
+  position: 'fixed',
+  width: '100%',
+  height: '100%',
+  background: 'url(/mg.gif) no-repeat center fixed',
+  backgroundSize: 'cover',
+  zIndex: -1,
+});
+
+const CenteredBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center', // Center vertically
+  height: '100vh',
+  textAlign: 'center',
+  color: 'black',
+  padding: '0 2rem', // Add padding to avoid text touching edges
+});
+
+const ButtonContainer = styled(Box)({
+  display: 'flex',
+  gap: '1rem', // Space between buttons
+});
+
+export default function Landing() {
+  const router = useRouter();
+
+  const handleSignIn = () => {
+    router.push('/signin'); // Navigate to the sign-in page
+  };
+
+  const handleSignUp = () => {
+    router.push('/signup'); // Navigate to the sign-up page
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Background>
+      <CenteredBox>
+        <WaveText variant="h1" component="h1" gutterBottom color='white'>
+          ChatBud
+        </WaveText>
+        <ButtonContainer>
+          <Button
+            variant="contained"
+            onClick={handleSignIn}
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '&:hover': {
+                backgroundColor: '#2b2b2b',
+                color: 'white'
+              }
+            }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            Sign In
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleSignUp}
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '&:hover': {
+                backgroundColor: '#2b2b2b',
+                color: 'white'
+              }
+            }}
+          >
+            Sign Up
+          </Button>
+        </ButtonContainer>
+      </CenteredBox>
+    </Background>
   );
 }
